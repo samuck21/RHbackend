@@ -1,10 +1,12 @@
 package com.svstudio.RHbackend.controller;
 
+import com.svstudio.RHbackend.exception.ResourcesDontFoundException;
 import com.svstudio.RHbackend.model.Employee;
 import com.svstudio.RHbackend.service.IEmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +31,15 @@ public class EmployeeController {
     public Employee addEmployee(@RequestBody Employee employee){
     logger.info("Empleado a agregar:" +employee);
     return employeeService.updateEmployee(employee);
+    }
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee>
+    getEmployeeById(@PathVariable Integer id){
+        Employee employee = employeeService.findEmployeeById(id);
+        if(employee==null){
+            throw  new ResourcesDontFoundException("No se encontro el"+id);
+        }
+        return ResponseEntity.ok(employee);
     }
 
 }
