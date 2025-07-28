@@ -5,10 +5,7 @@ import com.svstudio.RHbackend.service.IEmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +23,12 @@ public class EmployeeController {
         var employees = employeeService.employeeList();
         employees.forEach(employee -> logger.info(employee.toString()));
         return employees;
+    }
+
+    @PostMapping("/employees")
+    public Employee addEmployee(@RequestBody Employee employee){
+    logger.info("Empleado a agregar:" +employee);
+    return employeeService.updateEmployee(employee);
     }
 
 }
